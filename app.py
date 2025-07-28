@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, flash
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, flash, abort
 import os
 import uuid
 from PIL import Image
@@ -54,8 +54,16 @@ def upload_file():
 
 @app.route('/delete/<filename>', methods=['POST'])
 def delete_file(filename):
-    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    thumb_path = os.path.join(app.config['THUMBNAIL_FOLDER'], filename)
+    # Normalize and validate file_path
+    upload_folder_abs = os.path.abspath(app.config['UPLOAD_FOLDER'])
+    thumbnail_folder_abs = os.path.abspath(app.config['THUMBNAIL_FOLDER'])
+    file_path = os.path.normpath(os.path.join(upload_folder_abs, filename))
+    thumb_path = os.path.normpath(os.path.join(thumbnail_folder_abs, filename))
+
+    # Ensure the paths are within the intended directories
+    if not file_path.startswith(upload_folder_abs) or not thumb_path.startswith(thumbnail_folder_abs):
+        flash('Nombre de archivo no permitido.', 'danger')
+        return redirect(url_for('index'))
 
     if os.path.exists(file_path):
         os.remove(file_path)
