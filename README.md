@@ -1,81 +1,85 @@
 # Mandaditos CDN
 
-Un gestor de archivos CDN simple construido con Flask que permite subir, visualizar y servir archivos estáticos con generación automática de miniaturas para imágenes.
+<p align="center">
+  <img src="images/image.png" alt="Mandaditos CDN - Cover" width="800"/>
+</p>
 
-## Características
+A simple CDN file manager built with Flask that allows uploading, viewing, and serving static files with automatic thumbnail generation for images.
 
-- ✨ **Subida de archivos**: Soporta múltiples formatos de imagen (PNG, JPG, JPEG, GIF, SVG, WebP)
-- 🖼️ **Generación automática de miniaturas**: Crea miniaturas de 150x150px para imágenes raster
-- 📁 **Gestión de archivos**: Interface web para visualizar y eliminar archivos
-- 🚀 **Servicio CDN**: Endpoints dedicados para servir archivos y miniaturas
-- 🐳 **Dockerizado**: Incluye configuración Docker con Nginx como proxy reverso
-- 🔒 **Validación de archivos**: Solo permite formatos de imagen específicos
+## Features
 
-## Estructura del Proyecto
+- ✨ **File Upload**: Supports multiple image formats (PNG, JPG, JPEG, GIF, SVG, WebP)
+- 🖼️ **Automatic Thumbnail Generation**: Creates 150x150px thumbnails for raster images
+- 📁 **File Management**: Web interface to view and delete files
+- 🚀 **CDN Service**: Dedicated endpoints to serve files and thumbnails
+- 🐳 **Dockerized**: Includes Docker configuration with Nginx as reverse proxy
+- 🔒 **File Validation**: Only allows specific image formats
+
+## Project Structure
 
 ```
 mandaditos-cdn/
-├── app.py              # Aplicación principal Flask
-├── requirements.txt    # Dependencias Python
-├── Dockerfile         # Configuración Docker
-├── nginx.conf         # Configuración Nginx
+├── app.py              # Main Flask application
+├── requirements.txt    # Python dependencies
+├── Dockerfile          # Docker configuration
+├── nginx.conf          # Nginx configuration
 ├── templates/
-│   └── index.html     # Interface web principal
+│   └── index.html      # Main web interface
 ├── static/
-│   └── style.css      # Estilos CSS
-└── uploads/           # Directorio de archivos subidos
-    └── thumbnails/    # Miniaturas generadas
+│   └── style.css       # CSS styles
+└── uploads/            # Uploaded files directory
+    └── thumbnails/     # Generated thumbnails
 ```
 
-## Instalación y Uso
+## Installation and Usage
 
-### Opción 1: Ejecución Local
+### Option 1: Local Execution
 
-1. **Clonar el repositorio**:
+1. **Clone the repository**:
    ```bash
-   git clone <url-del-repositorio>
+   git clone <repository-url>
    cd mandaditos-cdn
    ```
 
-2. **Crear entorno virtual**:
+2. **Create virtual environment**:
    ```bash
    python -m venv venv
-   source venv/bin/activate  # En Linux/Mac
-   # o
-   venv\Scripts\activate     # En Windows
+   source venv/bin/activate  # On Linux/Mac
+   # or
+   venv\Scripts\activate     # On Windows
    ```
 
-3. **Instalar dependencias**:
+3. **Install dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Ejecutar la aplicación**:
+4. **Run the application**:
    ```bash
    python app.py
    ```
 
-5. **Acceder a la aplicación**:
-   Abre tu navegador en `http://localhost:5000`
+5. **Access the application**:
+   Open your browser at `http://localhost:5000`
 
-### Opción 2: Docker
+### Option 2: Docker
 
-1. **Construir la imagen**:
+1. **Build the image**:
    ```bash
    docker build -t mandaditos-cdn .
    ```
 
-2. **Ejecutar el contenedor**:
+2. **Run the container**:
    ```bash
    docker run -p 8000:8000 -v $(pwd)/uploads:/app/uploads mandaditos-cdn
    ```
 
-3. **Acceder a la aplicación**:
-   Abre tu navegador en `http://localhost:8000`
+3. **Access the application**:
+   Open your browser at `http://localhost:8000`
 
-### Opción 3: Docker Compose (con Nginx)
+### Option 3: Docker Compose (with Nginx)
 
-Para un despliegue más robusto con Nginx como proxy reverso, puedes crear un `docker-compose.yml`:
+For a more robust deployment with Nginx as reverse proxy, you can create a `docker-compose.yml`:
 
 ```yaml
 version: '3.8'
@@ -99,18 +103,20 @@ services:
 
 ## API Endpoints
 
-### Interface Web
-- `GET /` - Página principal con lista de archivos
+### Web Interface
+- `GET /` - Main page with file list
 
-### Gestión de Archivos
-- `POST /upload` - Subir un nuevo archivo
-- `POST /delete/<filename>` - Eliminar un archivo
+### File Management
+- `POST /upload` - Upload a new file
+- `POST /delete/<filename>` - Delete a file
 
 ### CDN Endpoints
-- `GET /cdn/<filename>` - Servir archivo original
-- `GET /cdn/thumbnails/<filename>` - Servir miniatura del archivo
+- `GET /cdn/<filename>` - Serve original file
+- `GET /cdn/thumbnails/<filename>` - Serve file thumbnail
 
-## Formatos Soportados
+## Supported Formats
+
+## Supported Formats
 
 - **PNG** (.png)
 - **JPEG** (.jpg, .jpeg)
@@ -118,17 +124,17 @@ services:
 - **SVG** (.svg)
 - **WebP** (.webp)
 
-## Configuración
+## Configuration
 
-### Variables de Entorno (Opcionales)
+### Environment Variables (Optional)
 
-- `UPLOAD_FOLDER`: Directorio para archivos subidos (default: 'uploads')
-- `THUMBNAIL_FOLDER`: Directorio para miniaturas (default: 'uploads/thumbnails')
-- `THUMBNAIL_SIZE`: Tamaño de miniaturas en píxeles (default: 150x150)
+- `UPLOAD_FOLDER`: Directory for uploaded files (default: 'uploads')
+- `THUMBNAIL_FOLDER`: Directory for thumbnails (default: 'uploads/thumbnails')
+- `THUMBNAIL_SIZE`: Thumbnail size in pixels (default: 150x150)
 
-### Personalización
+### Customization
 
-Puedes modificar las siguientes constantes en `app.py`:
+You can modify the following constants in `app.py`:
 
 ```python
 UPLOAD_FOLDER = 'uploads'
@@ -137,81 +143,81 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'}
 THUMBNAIL_SIZE = (150, 150)
 ```
 
-## Tecnologías Utilizadas
+## Technologies Used
 
 - **Backend**: Flask 3.0.3
-- **Servidor WSGI**: Gunicorn 23.0.0
-- **Procesamiento de imágenes**: Pillow 10.4.0
-- **Proxy reverso**: Nginx (opcional)
+- **WSGI Server**: Gunicorn 23.0.0
+- **Image Processing**: Pillow 10.4.0
+- **Reverse Proxy**: Nginx (optional)
 - **Frontend**: Bootstrap 5.3.3
-- **Containerización**: Docker
+- **Containerization**: Docker
 
-## Desarrollo
+## Development
 
-### Estructura de la Aplicación
+### Application Structure
 
-- `app.py`: Contiene toda la lógica de la aplicación Flask
-- `templates/index.html`: Interface de usuario con Bootstrap
-- `nginx.conf`: Configuración de Nginx para producción
-- `Dockerfile`: Configuración para containerización
-- `test_app.py`: Suite de pruebas unitarias e integración
+- `app.py`: Contains all Flask application logic
+- `templates/index.html`: User interface with Bootstrap
+- `nginx.conf`: Nginx configuration for production
+- `Dockerfile`: Configuration for containerization
+- `test_app.py`: Unit and integration test suite
 
-### Funciones Principales
+### Main Functions
 
-- `allowed_file()`: Valida extensiones de archivo permitidas
-- `create_thumbnail()`: Genera miniaturas automáticamente
-- `upload_file()`: Maneja la subida de archivos
-- `delete_file()`: Elimina archivos y sus miniaturas
-- `serve_file()` y `serve_thumbnail()`: Sirven archivos estáticos
+- `allowed_file()`: Validates allowed file extensions
+- `create_thumbnail()`: Generates thumbnails automatically
+- `upload_file()`: Handles file uploads
+- `delete_file()`: Deletes files and their thumbnails
+- `serve_file()` and `serve_thumbnail()`: Serve static files
 
-### Ejecutar Tests
+### Running Tests
 
-El proyecto incluye una suite completa de pruebas unitarias e integración:
+The project includes a complete unit and integration test suite:
 
 ```bash
-# Usando unittest (built-in)
+# Using unittest (built-in)
 python test_app.py
 
-# Usando pytest (recomendado)
+# Using pytest (recommended)
 pip install pytest pytest-cov
 pytest test_app.py -v
 
-# Con coverage report
+# With coverage report
 pytest test_app.py --cov=app --cov-report=html
 ```
 
-**Cobertura de Tests**:
-- ✅ Subida de archivos (formatos válidos e inválidos)
-- ✅ Generación de miniaturas
-- ✅ Servicio de archivos y miniaturas
-- ✅ Eliminación de archivos
-- ✅ Validación de funciones helper
-- ✅ Flujo completo de integración
-- ✅ Manejo de errores y casos edge
+**Test Coverage**:
+- ✅ File upload (valid and invalid formats)
+- ✅ Thumbnail generation
+- ✅ File and thumbnail serving
+- ✅ File deletion
+- ✅ Helper function validation
+- ✅ Complete integration flow
+- ✅ Error handling and edge cases
 
-## Seguridad
+## Security
 
-- ✅ Validación de tipos de archivo
-- ✅ Nombres únicos para archivos (UUID)
-- ✅ Sanitización de rutas de archivo
-- ⚠️ **Nota**: Esta aplicación está diseñada para uso interno. Para producción, considera implementar:
-  - Autenticación y autorización
-  - Límites de tamaño de archivo
+- ✅ File type validation
+- ✅ Unique file names (UUID)
+- ✅ File path sanitization
+- ⚠️ **Note**: This application is designed for internal use. For production, consider implementing:
+  - Authentication and authorization
+  - File size limits
   - Rate limiting
   - HTTPS
 
-## Contribuir
+## Contributing
 
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
-3. Commit tus cambios (`git commit -am 'Agregar nueva funcionalidad'`)
-4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
-5. Crea un Pull Request
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/new-feature`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push to the branch (`git push origin feature/new-feature`)
+5. Create a Pull Request
 
-## Licencia
+## License
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo LICENSE para más detalles.
+This project is under the MIT License. See the LICENSE file for more details.
 
-## Soporte
+## Support
 
-Si encuentras algún problema o tienes sugerencias, por favor crea un issue en el repositorio.
+If you find any issues or have suggestions, please create an issue in the repository.
