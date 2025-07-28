@@ -154,6 +154,7 @@ THUMBNAIL_SIZE = (150, 150)
 - `templates/index.html`: Interface de usuario con Bootstrap
 - `nginx.conf`: Configuración de Nginx para producción
 - `Dockerfile`: Configuración para containerización
+- `test_app.py`: Suite de pruebas unitarias e integración
 
 ### Funciones Principales
 
@@ -162,6 +163,31 @@ THUMBNAIL_SIZE = (150, 150)
 - `upload_file()`: Maneja la subida de archivos
 - `delete_file()`: Elimina archivos y sus miniaturas
 - `serve_file()` y `serve_thumbnail()`: Sirven archivos estáticos
+
+### Ejecutar Tests
+
+El proyecto incluye una suite completa de pruebas unitarias e integración:
+
+```bash
+# Usando unittest (built-in)
+python test_app.py
+
+# Usando pytest (recomendado)
+pip install pytest pytest-cov
+pytest test_app.py -v
+
+# Con coverage report
+pytest test_app.py --cov=app --cov-report=html
+```
+
+**Cobertura de Tests**:
+- ✅ Subida de archivos (formatos válidos e inválidos)
+- ✅ Generación de miniaturas
+- ✅ Servicio de archivos y miniaturas
+- ✅ Eliminación de archivos
+- ✅ Validación de funciones helper
+- ✅ Flujo completo de integración
+- ✅ Manejo de errores y casos edge
 
 ## Seguridad
 
