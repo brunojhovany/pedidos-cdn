@@ -1,0 +1,339 @@
+:root {
+  --primary-color: #4361ee;
+  --secondary-color: #3f37c9;
+  --light-bg: #f8f9fa;
+  --dark-bg: #212529;
+  --card-bg: #ffffff;
+  --text-color: #212529;
+  --border-color: #dee2e6;
+}
+
+[data-bs-theme="dark"] {
+  --light-bg: #1a1a1a;
+  --card-bg: #2d2d2d;
+  --text-color: #f8f9fa;
+  --border-color: #444;
+  --bs-body-color: #f8f9fa;
+  --bs-body-bg: #1a1a1a;
+  --bs-card-bg: #2d2d2d;
+  --bs-card-cap-bg: #2d2d2d;
+  --bs-border-color: #444;
+}
+
+body {
+  background-color: var(--light-bg);
+  color: var(--text-color);
+  min-height: 100vh;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 1.25rem;
+  color: var(--text-color);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+}
+
+.btn-primary:hover {
+  background-color: var(--secondary-color);
+}
+
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 15px;
+  transition: transform 0.2s;
+}
+
+.thumbnail:hover {
+  transform: scale(1.05);
+}
+
+.file-item {
+  transition: background-color 0.2s;
+  border-radius: 8px !important;
+  margin-bottom: 8px;
+  border: 1px solid #e9ecef !important;
+}
+
+.file-item {
+  transition: background-color 0.2s ease;
+}
+
+[data-bs-theme="light"] .file-item:hover {
+  background-color: #f8f9fa;
+}
+
+[data-bs-theme="dark"] .file-item {
+  background-color: #2d2d2d;
+  border-color: #444;
+}
+
+[data-bs-theme="dark"] .file-item:hover {
+  background-color: #3a3a3a;
+}
+
+[data-bs-theme="dark"] .file-item .text-dark {
+  color: #f8f9fa !important;
+}
+
+.upload-area {
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  background: var(--card-bg);
+  transition: all 0.3s;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-area {
+  text-align: center;
+  cursor: pointer;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.upload-area.empty {
+  border: 2px dashed var(--border-color);
+}
+
+.upload-area:not(.empty) {
+  border: 2px solid var(--primary-color);
+  background-color: rgba(67, 97, 238, 0.05);
+}
+
+.upload-area.uploading {
+  border-color: #198754;
+  background-color: rgba(25, 135, 84, 0.1);
+}
+
+.file-preview-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(67, 97, 238, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: left;
+  border: 1px solid rgba(67, 97, 238, 0.2);
+}
+
+.file-type-icon {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.file-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.upload-selected-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.upload-selected-state h5 {
+  margin: 0;
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+#selectedFileName {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#selectedFileSize {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--bs-gray-600);
+}
+
+#changeFileBtn {
+  transition: all 0.2s ease;
+  border-radius: 6px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+#changeFileBtn:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Dark mode adjustments */
+[data-bs-theme="dark"] .file-preview-container {
+  background: rgba(67, 97, 238, 0.15);
+  border-color: rgba(67, 97, 238, 0.3);
+}
+
+[data-bs-theme="dark"] #selectedFileSize {
+  color: var(--bs-gray-400);
+}
+
+.upload-preview {
+  display: none;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.file-preview {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  gap: 12px;
+  transition: all 0.2s ease;
+}
+
+.file-preview:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.preview-thumb-container {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(67, 97, 238, 0.1);
+  border-radius: 4px;
+  margin-right: 12px;
+  color: var(--primary-color);
+  font-size: 1.25rem;
+}
+
+.file-info {
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.file-name {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.file-name input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid transparent;
+  color: var(--text-color);
+  font-size: 0.95rem;
+  padding: 0;
+  margin: 0;
+  transition: all 0.2s ease;
+}
+
+.file-name input:focus {
+  outline: none;
+  box-shadow: none;
+  border-color: var(--primary-color);
+}
+
+.file-name input:read-only {
+  border-color: transparent;
+  background: transparent;
+  cursor: default;
+}
+
+.file-actions-preview {
+  display: flex;
+  gap: 8px;
+  margin-left: 12px;
+}
+
+.file-actions-preview .btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+.upload-area.drag-over {
+  border-color: var(--primary-color);
+  background-color: rgba(67, 97, 238, 0.1);
+  transform: translateY(-2px);
+}
+
+.upload-area.upload-success {
+  border-color: #198754;
+  background-color: rgba(25, 135, 84, 0.1);
+}
+
+.upload-area:hover {
+  border-color: var(--primary-color);
+  background-color: rgba(67, 97, 238, 0.05);
+}
+
+.file-input {
+  display: none;
+}
+
+.dark-mode {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .file-actions {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
