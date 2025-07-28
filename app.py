@@ -3,8 +3,8 @@ import os
 import uuid
 from PIL import Image
 
-UPLOAD_FOLDER = 'uploads'
-THUMBNAIL_FOLDER = 'uploads/thumbnails'
+UPLOAD_FOLDER = '/app/content'
+THUMBNAIL_FOLDER = '/app/content/uploads/thumbnails'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'}
 THUMBNAIL_SIZE = (150, 150)
 
