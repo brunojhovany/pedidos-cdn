@@ -39,7 +39,11 @@ def upload_file():
     if file and allowed_file(file.filename):
         ext = file.filename.rsplit('.', 1)[1].lower()
         unique_name = f"{uuid.uuid4()}.{ext}"
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], unique_name)
+        upload_folder_abs = os.path.abspath(app.config['UPLOAD_FOLDER'])
+        filepath = os.path.normpath(os.path.join(upload_folder_abs, unique_name))
+        if not filepath.startswith(upload_folder_abs):
+            flash('Nombre de archivo no permitido.', 'danger')
+            return redirect(url_for('index'))
         file.save(filepath)
 
         # Generar miniatura solo si es imagen raster (no para svg, etc.)
