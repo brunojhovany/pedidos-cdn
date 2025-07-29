@@ -1,10 +1,11 @@
+import mimetypes
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, flash, abort
 import os
 import uuid
 from PIL import Image
 
-UPLOAD_FOLDER = '/app/content'
-THUMBNAIL_FOLDER = '/app/content/uploads/thumbnails'
+UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', '/app/content')
+THUMBNAIL_FOLDER = os.getenv('THUMBNAIL_FOLDER', '/app/content/thumbnails')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'}
 THUMBNAIL_SIZE = (150, 150)
 
@@ -12,6 +13,7 @@ app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['THUMBNAIL_FOLDER'] = THUMBNAIL_FOLDER
+mimetypes.add_type('image/webp', '.webp')
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(THUMBNAIL_FOLDER, exist_ok=True)
@@ -26,6 +28,17 @@ def create_thumbnail(image_path, thumb_path):
         img.save(thumb_path)
     except Exception as e:
         print(f"Error creando miniatura: {e}")
+
+def compress_and_convert_image(filepath):
+    try:
+        with Image.open(filepath) as img:
+            webp_path = os.path.splitext(filepath)[0] + '.webp'
+            img.save(webp_path, format='WEBP', quality=80)
+            os.remove(filepath)  # Elimina el original si se convierte
+            return os.path.basename(webp_path)
+    except Exception as e:
+        print(f"[ERROR] No se pudo comprimir/convertir la imagen: {e}")
+        return None
 
 @app.route('/')
 def index():
@@ -46,11 +59,22 @@ def upload_file():
             return redirect(url_for('index'))
         file.save(filepath)
 
+        # Comprimir y convertir a WebP si es necesario
+        if ext in ALLOWED_EXTENSIONS:
+            compressed_filename = compress_and_convert_image(filepath)
+            if compressed_filename:
+                unique_name = compressed_filename
+                filepath = os.path.join(upload_folder_abs, unique_name)
+                flash(f'Imagen convertida y comprimida como {compressed_filename}.', 'success')
+            else:
+                flash('Error al comprimir la imagen.', 'danger')
+        else:
+            flash('Archivo subido sin compresión.', 'info')
+
         # Generar miniatura solo si es imagen raster (no para svg, etc.)
         if ext in {'png', 'jpg', 'jpeg', 'gif', 'webp'}:
             thumb_path = os.path.join(app.config['THUMBNAIL_FOLDER'], unique_name)
             create_thumbnail(filepath, thumb_path)
-
         flash('Archivo subido correctamente.', 'success')
     else:
         flash('Archivo no permitido.', 'danger')

@@ -76,7 +76,7 @@ class MandaditosCDNTestCase(unittest.TestCase):
         uploaded_files = os.listdir(self.upload_dir)
         uploaded_files = [f for f in uploaded_files if f != 'thumbnails']
         self.assertEqual(len(uploaded_files), 1)
-        self.assertTrue(uploaded_files[0].endswith('.jpg'))
+        self.assertTrue(uploaded_files[0].endswith('.webp'))  # Assuming conversion to WebP
     
     def test_upload_creates_thumbnail(self):
         """Test that uploading an image creates a thumbnail."""
@@ -89,7 +89,7 @@ class MandaditosCDNTestCase(unittest.TestCase):
         # Check if thumbnail was created
         thumbnails = os.listdir(self.thumbnail_dir)
         self.assertEqual(len(thumbnails), 1)
-        self.assertTrue(thumbnails[0].endswith('.jpg'))
+        self.assertTrue(thumbnails[0].endswith('.webp'))  # Assuming thumbnails are saved as WebP
     
     def test_upload_png_image(self):
         """Test uploading a PNG image."""
@@ -105,7 +105,7 @@ class MandaditosCDNTestCase(unittest.TestCase):
         uploaded_files = os.listdir(self.upload_dir)
         uploaded_files = [f for f in uploaded_files if f != 'thumbnails']
         self.assertEqual(len(uploaded_files), 1)
-        self.assertTrue(uploaded_files[0].endswith('.png'))
+        self.assertTrue(uploaded_files[0].endswith('.webp'))
     
     def test_upload_webp_image(self):
         """Test uploading a WebP image."""
@@ -293,7 +293,7 @@ class MandaditosCDNTestCase(unittest.TestCase):
         
         # Check that filename is a UUID (should not be original name)
         self.assertNotEqual(filename, 'original_name.jpg')
-        self.assertTrue(filename.endswith('.jpg'))
+        self.assertTrue(filename.endswith('.webp'))  # Assuming conversion to WebP
         
         # Try to parse as UUID (will raise ValueError if not valid UUID)
         try:
@@ -355,12 +355,13 @@ class MandaditosCDNIntegrationTest(unittest.TestCase):
         # 3. Serve the original file
         serve_response = self.client.get(f'/cdn/{filename}')
         self.assertEqual(serve_response.status_code, 200)
-        self.assertEqual(serve_response.content_type, 'image/jpeg')
+        # expect a webp file
+        self.assertEqual(serve_response.content_type, 'image/webp')
         
         # 4. Serve the thumbnail
         thumb_response = self.client.get(f'/cdn/thumbnails/{filename}')
         self.assertEqual(thumb_response.status_code, 200)
-        self.assertEqual(thumb_response.content_type, 'image/jpeg')
+        self.assertEqual(thumb_response.content_type, 'image/webp')
         
         # 5. Check that file appears on main page
         index_response = self.client.get('/')

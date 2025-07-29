@@ -12,7 +12,9 @@
             "module": "flask",
             "env": {
                 "FLASK_APP": "app.py",
-                "FLASK_DEBUG": "1"
+                "FLASK_DEBUG": "1",
+                "UPLOAD_FOLDER": "uploads/",
+                "THUMBNAIL_FOLDER": "uploads/thumbnails"
             },
             "args": [
                 "run",

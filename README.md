@@ -161,6 +161,7 @@ THUMBNAIL_SIZE = (150, 150)
 - `nginx.conf`: Nginx configuration for production
 - `Dockerfile`: Configuration for containerization
 - `test_app.py`: Unit and integration test suite
+- `.github/workflows/`: CI/CD automation with GitHub Actions
 
 ### Main Functions
 
@@ -169,6 +170,23 @@ THUMBNAIL_SIZE = (150, 150)
 - `upload_file()`: Handles file uploads
 - `delete_file()`: Deletes files and their thumbnails
 - `serve_file()` and `serve_thumbnail()`: Serve static files
+
+### CI/CD Pipeline
+
+The project includes automated testing and release workflows:
+
+**GitHub Actions Workflows:**
+- 🧪 **Automated Testing**: Runs on every push and pull request
+- 🚀 **Automatic Releases**: Creates releases when tests pass on main branch
+- 🐳 **Docker Integration**: Builds and tests Docker images
+- 📊 **Code Quality**: Linting and security checks
+- 🔧 **Environment Support**: Configurable upload and thumbnail directories
+
+**Workflow Triggers:**
+- Tests run on all branches for pull requests
+- Releases are created only on pushes to `main` branch
+- Version numbers auto-increment (patch by default)
+- Environment variables: `UPLOAD_FOLDER`, `THUMBNAIL_FOLDER`
 
 ### Running Tests
 
