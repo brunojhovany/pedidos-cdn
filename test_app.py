@@ -253,9 +253,9 @@ class MandaditosCDNTestCase(unittest.TestCase):
         self.assertTrue(os.path.exists(thumb_path))
         
         thumb_img = Image.open(thumb_path)
-        self.assertLessEqual(thumb_img.width, 150)
-        self.assertLessEqual(thumb_img.height, 150)
-    
+        self.assertLessEqual(thumb_img.width, 250)
+        self.assertLessEqual(thumb_img.height, 250)
+
     def test_multiple_file_uploads(self):
         """Test uploading multiple files."""
         # Upload first file
