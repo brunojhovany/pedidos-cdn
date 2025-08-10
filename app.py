@@ -2,12 +2,13 @@ import mimetypes
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, flash, abort
 import os
 import uuid
-from PIL import Image
+from PIL import Image, ImageOps
 
 UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', '/app/content')
 THUMBNAIL_FOLDER = os.getenv('THUMBNAIL_FOLDER', '/app/content/thumbnails')
+PUBLIC_DNS_DOMAIN = os.getenv('PUBLIC_DNS_DOMAIN', 'localhost')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'}
-THUMBNAIL_SIZE = (150, 150)
+THUMBNAIL_SIZE = (250, 250)
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
@@ -24,27 +25,37 @@ def allowed_file(filename):
 def create_thumbnail(image_path, thumb_path):
     try:
         img = Image.open(image_path)
+        
+        # Método moderno: corrige automáticamente la orientación EXIF
+        img = ImageOps.exif_transpose(img)
+        
         img.thumbnail(THUMBNAIL_SIZE)
         img.save(thumb_path)
+        print(f"✅ Miniatura creada: {thumb_path}")
     except Exception as e:
-        print(f"Error creando miniatura: {e}")
+        print(f"❌ Error creando miniatura: {e}")
 
 def compress_and_convert_image(filepath):
     try:
         with Image.open(filepath) as img:
+            # Método moderno: corrige automáticamente la orientación EXIF
+            img = ImageOps.exif_transpose(img)
+            
             webp_path = os.path.splitext(filepath)[0] + '.webp'
-            img.save(webp_path, format='WEBP', quality=80)
+            # Guardar sin metadatos EXIF para evitar problemas futuros
+            img.save(webp_path, format='WEBP', quality=80, exif=b'')
             os.remove(filepath)  # Elimina el original si se convierte
+            print(f"✅ Imagen convertida a WebP: {webp_path}")
             return os.path.basename(webp_path)
     except Exception as e:
-        print(f"[ERROR] No se pudo comprimir/convertir la imagen: {e}")
+        print(f"❌ [ERROR] No se pudo comprimir/convertir la imagen: {e}")
         return None
 
 @app.route('/')
 def index():
     files = os.listdir(app.config['UPLOAD_FOLDER'])
     files = [f for f in files if f != 'thumbnails']
-    return render_template('index.html', files=files)
+    return render_template('index.html', files=files, public_dns_domain=PUBLIC_DNS_DOMAIN)
 
 @app.route('/upload', methods=['POST'])
 def upload_file():

@@ -86,7 +86,7 @@
                                     <div class="d-flex align-items-center flex-grow-1 mb-2 mb-md-0">
                                         {% if file.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp', '.bmp', '.svg')) %}
                                             <a href="/cdn/{{ file }}" class="me-3" target="_blank" data-bs-toggle="tooltip" title="Ver imagen">
-                                                <img src="/cdn/{{ file }}" class="thumbnail" alt="{{ file }}">
+                                                <img src="/cdn/thumbnails/{{ file }}" class="thumbnail" alt="{{ file }}">
                                             </a>
                                         {% else %}
                                             <div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
@@ -104,6 +104,13 @@
                                         </div>
                                     </div>
                                     <div class="file-actions">
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-outline-info me-2" data-bs-toggle="tooltip" title="Copiar enlace CDN" onclick="copyToClipboard('{{ public_dns_domain }}/cdn/{{ file }}')">
+                                            <i class="bi bi-share"></i>
+                                        </a>
+                                        <!-- copy thumbnail cdn url -->
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-outline-info me-2" data-bs-toggle="tooltip" title="Copiar enlace CDN thumbnail" onclick="copyToClipboard('{{ public_dns_domain }}/cdn/thumbnails/{{ file }}')">
+                                            <i class="bi bi-images"></i>
+                                        </a>
                                         <a href="/cdn/{{ file }}" target="_blank" class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="tooltip" title="Ver archivo">
                                             <i class="bi bi-eye"></i>
                                         </a>

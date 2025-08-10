@@ -613,3 +613,12 @@ document.addEventListener("DOMContentLoaded", function () {
     dropArea.classList.remove("upload-success");
   });
 });
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Enlace copiado al portapapeles: " + text);
+    }).catch((err) => {
+      console.error("Error al copiar al portapapeles: ", err);
+      alert("No se pudo copiar el enlace al portapapeles.");
+    });
+}
