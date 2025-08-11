@@ -104,17 +104,17 @@
                                         </div>
                                     </div>
                                     <div class="file-actions">
-                                        <a href="javascript:void(0);" class="btn btn-sm btn-outline-info me-2" data-bs-toggle="tooltip" title="Copiar enlace CDN" onclick="copyToClipboard('{{ public_dns_domain }}{{ APPLICATION_ROOT }}/cdn/{{ file }}')">
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-outline-info me-2" data-bs-toggle="tooltip" title="Copiar enlace CDN" onclick="copyToClipboard('{{ public_dns_domain }}/cdn/{{ file }}')">
                                             <i class="bi bi-share"></i>
                                         </a>
                                         <!-- copy thumbnail cdn url -->
-                                        <a href="javascript:void(0);" class="btn btn-sm btn-outline-info me-2" data-bs-toggle="tooltip" title="Copiar enlace CDN thumbnail" onclick="copyToClipboard('{{ public_dns_domain }}{{ APPLICATION_ROOT }}/cdn/thumbnails/{{ file }}')">
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-outline-info me-2" data-bs-toggle="tooltip" title="Copiar enlace CDN thumbnail" onclick="copyToClipboard('{{ public_dns_domain }}/cdn/thumbnails/{{ file }}')">
                                             <i class="bi bi-images"></i>
                                         </a>
-                                        <a href="{{ APPLICATION_ROOT }}/cdn/{{ file }}" target="_blank" class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="tooltip" title="Ver archivo">
+                                        <a href="/cdn/{{ file }}" target="_blank" class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="tooltip" title="Ver archivo">
                                             <i class="bi bi-eye"></i>
                                         </a>
-                                        <a href="{{ APPLICATION_ROOT }}/cdn/{{ file }}" download class="btn btn-sm btn-outline-secondary me-2" data-bs-toggle="tooltip" title="Descargar">
+                                        <a href="/cdn/{{ file }}" download class="btn btn-sm btn-outline-secondary me-2" data-bs-toggle="tooltip" title="Descargar">
                                             <i class="bi bi-download"></i>
                                         </a>
                                         <form action="{{ APPLICATION_ROOT }}/delete/{{ file }}" method="POST" class="d-inline">
