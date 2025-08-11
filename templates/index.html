@@ -7,10 +7,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="{{ APPLICATION_ROOT }}/static/style.css">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/static/index.js"></script>
+    <script src="{{ APPLICATION_ROOT }}/static/index.js"></script>
 
 </head>
 <body class="p-3 p-md-5">
@@ -35,7 +35,7 @@
 
         <div class="card mb-4">
             <div class="card-body">
-                <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+                <form id="uploadForm" action="{{ APPLICATION_ROOT }}/upload" method="POST" enctype="multipart/form-data">
                     <div class="upload-area empty" id="dropArea">
                         <div class="upload-empty-state">
                             <i class="bi bi-cloud-arrow-up display-4 text-muted mb-3"></i>
@@ -85,8 +85,8 @@
                                 <div class="d-flex flex-column flex-md-row align-items-md-center">
                                     <div class="d-flex align-items-center flex-grow-1 mb-2 mb-md-0">
                                         {% if file.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp', '.bmp', '.svg')) %}
-                                            <a href="/cdn/{{ file }}" class="me-3" target="_blank" data-bs-toggle="tooltip" title="Ver imagen">
-                                                <img src="/cdn/thumbnails/{{ file }}" class="thumbnail" alt="{{ file }}">
+                                            <a href="{{ APPLICATION_ROOT }}/cdn/{{ file }}" class="me-3" target="_blank" data-bs-toggle="tooltip" title="Ver imagen">
+                                                <img src="{{ APPLICATION_ROOT }}/cdn/thumbnails/{{ file }}" class="thumbnail" alt="{{ file }}">
                                             </a>
                                         {% else %}
                                             <div class="bg-light rounded d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
@@ -94,7 +94,7 @@
                                             </div>
                                         {% endif %}
                                         <div class="flex-grow-1 ms-3">
-                                            <a href="/cdn/{{ file }}" target="_blank" class="text-decoration-none text-dark fw-medium">
+                                            <a href="{{ APPLICATION_ROOT }}/cdn/{{ file }}" target="_blank" class="text-decoration-none text-dark fw-medium">
                                                 {{ file }}
                                             </a>
                                             <div class="text-muted small mt-1">
@@ -104,20 +104,20 @@
                                         </div>
                                     </div>
                                     <div class="file-actions">
-                                        <a href="javascript:void(0);" class="btn btn-sm btn-outline-info me-2" data-bs-toggle="tooltip" title="Copiar enlace CDN" onclick="copyToClipboard('{{ public_dns_domain }}/cdn/{{ file }}')">
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-outline-info me-2" data-bs-toggle="tooltip" title="Copiar enlace CDN" onclick="copyToClipboard('{{ public_dns_domain }}{{ APPLICATION_ROOT }}/cdn/{{ file }}')">
                                             <i class="bi bi-share"></i>
                                         </a>
                                         <!-- copy thumbnail cdn url -->
-                                        <a href="javascript:void(0);" class="btn btn-sm btn-outline-info me-2" data-bs-toggle="tooltip" title="Copiar enlace CDN thumbnail" onclick="copyToClipboard('{{ public_dns_domain }}/cdn/thumbnails/{{ file }}')">
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-outline-info me-2" data-bs-toggle="tooltip" title="Copiar enlace CDN thumbnail" onclick="copyToClipboard('{{ public_dns_domain }}{{ APPLICATION_ROOT }}/cdn/thumbnails/{{ file }}')">
                                             <i class="bi bi-images"></i>
                                         </a>
-                                        <a href="/cdn/{{ file }}" target="_blank" class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="tooltip" title="Ver archivo">
+                                        <a href="{{ APPLICATION_ROOT }}/cdn/{{ file }}" target="_blank" class="btn btn-sm btn-outline-primary me-2" data-bs-toggle="tooltip" title="Ver archivo">
                                             <i class="bi bi-eye"></i>
                                         </a>
-                                        <a href="/cdn/{{ file }}" download class="btn btn-sm btn-outline-secondary me-2" data-bs-toggle="tooltip" title="Descargar">
+                                        <a href="{{ APPLICATION_ROOT }}/cdn/{{ file }}" download class="btn btn-sm btn-outline-secondary me-2" data-bs-toggle="tooltip" title="Descargar">
                                             <i class="bi bi-download"></i>
                                         </a>
-                                        <form action="/delete/{{ file }}" method="POST" class="d-inline">
+                                        <form action="{{ APPLICATION_ROOT }}/delete/{{ file }}" method="POST" class="d-inline">
                                             <button type="submit" class="btn btn-sm btn-outline-danger" data-bs-toggle="tooltip" title="Eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar este archivo?')">
                                                 <i class="bi bi-trash"></i>
                                             </button>
@@ -130,7 +130,7 @@
                 {% else %}
                     <div class="text-center py-5">
                         <i class="bi bi-inbox display-4 text-muted mb-3"></i>
-                        <p class="text-muted">No hay archivos subidos aún. Sube tu primer archivo arrastrándolo o haciendo clic en el área de carga</p>
+                        <p class="text-muted">No hay archivos subidos aún. Sube tu primer archivo arrastrándolo o haciendo clic en el área de carga.</p>
                     </div>
                 {% endif %}
             </div>

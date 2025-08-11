@@ -15,7 +15,8 @@
                 "FLASK_DEBUG": "1",
                 "UPLOAD_FOLDER": "uploads/",
                 "THUMBNAIL_FOLDER": "uploads/thumbnails",
-                "PUBLIC_DNS_DOMAIN": "http://localhost:5000"
+                "PUBLIC_DNS_DOMAIN": "http://localhost:5000",
+                "APPLICATION_ROOT": "/cdn/admin"
             },
             "args": [
                 "run",

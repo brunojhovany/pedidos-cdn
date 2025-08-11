@@ -3,10 +3,12 @@ from flask import Flask, render_template, request, redirect, url_for, send_from_
 import os
 import uuid
 from PIL import Image, ImageOps
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER', '/app/content')
 THUMBNAIL_FOLDER = os.getenv('THUMBNAIL_FOLDER', '/app/content/thumbnails')
 PUBLIC_DNS_DOMAIN = os.getenv('PUBLIC_DNS_DOMAIN', 'localhost')
+APPLICATION_ROOT = os.getenv('APPLICATION_ROOT', '/cdn/admin')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'}
 THUMBNAIL_SIZE = (250, 250)
 
@@ -14,6 +16,15 @@ app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['THUMBNAIL_FOLDER'] = THUMBNAIL_FOLDER
+app.config['APPLICATION_ROOT'] = APPLICATION_ROOT
+
+# Configurar ProxyFix para manejar headers del proxy
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
+
+@app.context_processor
+def inject_application_root():
+    return {'APPLICATION_ROOT': APPLICATION_ROOT}
+
 mimetypes.add_type('image/webp', '.webp')
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -119,6 +130,10 @@ def serve_file(filename):
 @app.route('/cdn/thumbnails/<filename>')
 def serve_thumbnail(filename):
     return send_from_directory(app.config['THUMBNAIL_FOLDER'], filename)
+
+@app.route('/static/<filename>')
+def serve_static(filename):
+    return send_from_directory('static', filename)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
